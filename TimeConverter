@@ -1,0 +1,33 @@
+from datetime import *
+
+date_entry = input('Enter a date in YYYY-MM-DD   ')
+year, month, day = map(int, date_entry.split('-'))
+
+timedate = date(year=year, month=month, day=day)
+timedate1 = timedate.weekday()
+
+nov1 = date(year=year, month=11, day=1) #date of first of November
+
+marchdate1 =date(year=year, month=3, day=8) #date of 8th of March
+
+today=date.today()
+idx =(timedate.weekday() + 1) % 7
+sun = timedate - timedelta(idx)
+
+
+#January, February, December are not in DST
+if month < 3 or month > 11:
+    print(date_entry, "08:00")
+#April to October are in DST
+elif month >= 4 and month < 11:
+    print(date_entry, "07:00")
+#In March we are DST if our previous sunday was on or after the 8th
+elif month ==3 and sun >= marchdate1:
+    print(date_entry, "07:00")
+#In november we must be before the first sunday to be dst.The first Sunday in November will always be between the 1st and 7th inclusive.
+elif month ==11 and nov1 > sun:
+    print(date_entry, "07:00")
+#The other case for November are not in DST
+else:
+    print(date_entry, "08:00")
+
